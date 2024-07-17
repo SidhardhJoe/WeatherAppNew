@@ -8,7 +8,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown:false}}>
+      <Stack.Navigator screenOptions={{headerShown:false}} initialRouteName='FirstPage'>
         <Stack.Screen name="FirstPage" component={FirstPage} />
       </Stack.Navigator>
     </NavigationContainer>
