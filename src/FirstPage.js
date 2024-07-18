@@ -1,32 +1,37 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, Text, Animated } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text, Animated, StatusBar, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Easing } from 'react-native-reanimated';
 
 const FirstPage = () => {
-    const value = useState(new Animated.ValueXY({ x: -100, y: -100 }))[0];
+    const value = useState(new Animated.ValueXY({ x: -400, y: -400 }))[0];
 
     function moveBall() {
         Animated.timing(value, {
-            toValue: { x: 100, y: 100 },
-            duration: 1000,
+            toValue: { x: -60, y: -40 },
+            duration: 1100,
             useNativeDriver: false,
         }).start();
     }
 
     useEffect(() => {
         console.log('value', value)
-        // moveBall();
+        moveBall();
     }, []);
+
+    const size = 350
+    const borderradius = size/2
 
     return (
         <View style={styles.container}>
+            <StatusBar>
+
+            </StatusBar>
             <Animated.View style={value.getLayout()}>
-                <View style={styles.box} />
+                <View style={[styles.box, {width:size, height:size, borderRadius:borderradius}]}>
+                    <Image source={require("../Images/bg1.png")} style={styles.bg1}/>
+                </View>
             </Animated.View>
-            <TouchableOpacity onPress={moveBall}>
-                <Text>press here</Text>
-            </TouchableOpacity>
         </View>
     );
 };
@@ -36,11 +41,15 @@ export default FirstPage;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor:"black"
     },
     box: {
-        width: 200,
-        height: 100,
-        borderRadius: 20,
-        backgroundColor: 'red',
+        backgroundColor: '#232323',
+        justifyContent:"center",
+        alignItems:"center"
     },
+    bg1:{
+        height:200,
+        width:200
+    }
 });
