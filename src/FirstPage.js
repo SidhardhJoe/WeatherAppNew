@@ -60,8 +60,8 @@ const FirstPage = () => {
             </Animated.View>
             <View style={styles.lastview}>
                 <Animated.View style={value2.getLayout()}>
-                    <TouchableOpacity style={styles.bottombox}>
-                        <View >
+                    <TouchableOpacity style={styles.bottombox} onPress={()=>navigation.navigate('HomePage')}>
+                        <View>
                             <Text style={styles.lasttxt}>Get Started</Text>
                         </View>
                     </TouchableOpacity>
