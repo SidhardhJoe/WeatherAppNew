@@ -24,7 +24,7 @@ const FirstPage = () => {
     }
     function moveBox() {
         Animated.timing(value2, {
-            toValue: { x: -0, y: 0 },
+            toValue: { x: 0, y: 0 },
             duration: 1200,
             useNativeDriver: false,
         }).start()
