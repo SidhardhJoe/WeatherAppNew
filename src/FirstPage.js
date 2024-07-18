@@ -45,7 +45,7 @@ const FirstPage = () => {
             </StatusBar>
             <Animated.View style={value.getLayout()}>
                 <View style={[styles.box, { width: size, height: size, borderRadius: borderradius }]}>
-                    <Image source={require("../Images/bg1.png")} style={styles.bg1} />
+                    <Image source={require("../Images/suncloudwind.png")} style={styles.bg1} />
                 </View>
             </Animated.View>
             <Animated.View style={value1.getLayout()}>
