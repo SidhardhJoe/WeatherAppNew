@@ -5,13 +5,14 @@ import FirstPage from './src/FirstPage';
 import { useFonts } from 'expo-font';
 import HomePage from './src/HomePage';
 import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
+import AddLocationPage from "./src/AddLocationPage";
 
 
 const loadFonts = () => {
   return useFonts({
     GilBlack: require("./Fonts/Gilroy-Black.ttf"),
     GilReg: require("./Fonts/Gilroy-Regular.ttf"),
-    GilMed : require("./Fonts/Gilroy-Medium.ttf"),
+    GilMed: require("./Fonts/Gilroy-Medium.ttf"),
     GilSemiBold: require("./Fonts/Gilroy-SemiBold.ttf")
   })
 }
@@ -47,6 +48,14 @@ export default function App() {
               cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
             }}
           />
+          <Stack.Screen name="AddLocation" component={AddLocationPage}
+            options={{
+              transitionSpec: {
+                open: config,
+                close: config,
+              },
+              cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+            }} />
         </Stack.Navigator>
       </NavigationContainer>
     );
