@@ -1,12 +1,13 @@
-import { StyleSheet, Text, View, ActivityIndicator } from 'react-native'
+import { StyleSheet, Text, View, ScrollView, TextInput } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import Loadingcomponenet from './Loadingcomponenet'
-import LottieView from 'lottie-react-native';
+import {useWindowDimensions} from 'react-native';
 
 const HomePage = () => {
 
   const [data, setData] = useState('')
+  const WindowwHeight = useWindowDimensions().height
 
 
   const getData = () => {
@@ -25,13 +26,17 @@ const HomePage = () => {
 
 
   return (
-    <View style={styles.container}>
-      {data ? <View>
-        <Text style={{ color: "white", padding: 20, fontSize: 18, fontFamily: "GilBlack" }}>City List {data.currentConditions.temp}   </Text>
-      </View> : <Loadingcomponenet />
-      }
-
-    </View>
+    <ScrollView style={styles.container}>
+      <View style={styles.view1}>
+        <Text style={styles.citylist}>City List</Text>
+        {data ? <View>
+          <Text style={styles.chancefor}>Chance for {data.currentConditions.conditions}</Text>
+        </View> : <Loadingcomponenet />}
+      </View>
+      <View>
+        <TextInput style={[styles.inputbox, {height:WindowwHeight*0.04}]}/>
+      </View>
+    </ScrollView>
   )
 }
 
@@ -41,5 +46,24 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "black"
+  },
+  view1: {
+    padding: 15,
+  },
+  citylist: {
+    color: "white",
+    fontSize: 24,
+    fontFamily: "GilSemiBold"
+  },
+  chancefor:{
+    fontFamily:"GilReg",
+    color:"grey",
+    marginTop:"1%"
+  },
+  inputbox:{
+    width:"90%",
+    marginHorizontal:"5%",
+    backgroundColor:"white",
+    color:"black"
   }
 })

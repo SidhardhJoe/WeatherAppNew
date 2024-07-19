@@ -12,7 +12,7 @@ export default Loadingcomponenet
 
 const styles = StyleSheet.create({
     icon:{
-        height:"10%",
+        height:"50%",
         width:"50%"
     }
 })

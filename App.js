@@ -10,7 +10,9 @@ import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/
 const loadFonts = () => {
   return useFonts({
     GilBlack: require("./Fonts/Gilroy-Black.ttf"),
-    GilReg: require("./Fonts/Gilroy-Regular.ttf")
+    GilReg: require("./Fonts/Gilroy-Regular.ttf"),
+    GilMed : require("./Fonts/Gilroy-Medium.ttf"),
+    GilSemiBold: require("./Fonts/Gilroy-SemiBold.ttf")
   })
 }
 
