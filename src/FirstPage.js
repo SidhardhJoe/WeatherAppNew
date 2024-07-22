@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, TouchableOpacity, Text, Animated, StatusBar, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const FirstPage = () => {
     const navigation = useNavigation();
     const value = useState(new Animated.ValueXY({ x: -300, y: -300 }))[0];
     const value1 = useState(new Animated.ValueXY({ x: -300, y: 0 }))[0];
     const value2 = useState(new Animated.ValueXY({ x: 0, y: 100 }))[0];
+    const [data, setData] = useState('')
 
     function moveBall() {
         Animated.timing(value, {
@@ -30,10 +32,21 @@ const FirstPage = () => {
         }).start()
     }
 
+    const getData = async () => {
+        try {
+            const savedata = await AsyncStorage.getItem("location")
+            const pardata = JSON.parse(savedata)
+            setData(pardata)
+        } catch (err) {
+            console.log('err', err)
+        }
+    }
+
     useEffect(() => {
         moveBall();
         moveText();
         moveBox();
+        getData();
     }, []);
 
     const size = 350
@@ -60,12 +73,18 @@ const FirstPage = () => {
             </Animated.View>
             <View style={styles.lastview}>
                 <Animated.View style={value2.getLayout()}>
-                    <TouchableOpacity style={styles.bottombox} onPress={()=>navigation.navigate('AddLocation')}>
+                    {data ? <TouchableOpacity style={styles.bottombox} onPress={() => navigation.navigate('HomePage')}>
                         <View>
                             <Text style={styles.lasttxt}>Get Started</Text>
                         </View>
-                    </TouchableOpacity>
+                    </TouchableOpacity> :
+                        <TouchableOpacity style={styles.bottombox} onPress={() => navigation.navigate('AddLocation')}>
+                            <View>
+                                <Text style={styles.lasttxt}>Get Started</Text>
+                            </View>
+                        </TouchableOpacity>}
                 </Animated.View>
+                {console.log('data', data)}
             </View>
         </View>
     );
@@ -106,7 +125,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         justifyContent: "center",
         alignItems: "center",
-        marginLeft:"5%"
+        marginLeft: "5%"
     },
     lastview: {
         marginTop: "25%"

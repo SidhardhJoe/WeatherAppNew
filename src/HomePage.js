@@ -13,7 +13,7 @@ const HomePage = () => {
   const [location, setLocation] = useState('')
   const [loading, setLoading] = useState(false)
   const [pageloading, setPageloading] = useState(false)
-  const [check, setCheck] = useState('Chennai')
+  const [check, setCheck] = useState('')
 
 
   const getData = () => {
@@ -37,6 +37,12 @@ const HomePage = () => {
       console.log('location', location)
     }catch(err){
       console.log('err', err)
+    }
+  }
+
+  const changeData = async()=>{
+    if(location){
+      setLocation()
     }
   }
 
