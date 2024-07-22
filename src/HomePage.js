@@ -10,52 +10,40 @@ const HomePage = () => {
 
   const [data, setData] = useState('')
   const WindowwHeight = useWindowDimensions().height
-  const [location, setLocation] = useState('')
+  const [location, setLocation] = useState(null)
   const [loading, setLoading] = useState(false)
   const [pageloading, setPageloading] = useState(false)
 
-
-  const getData = () => {
-    setLoading(true)
-    axios.get(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?unitGroup=metric&include=hours%2Cdays%2Ccurrent%2Calerts&key=F6RQQ5THZ6QFFEP69BKLW8VYX&contentType=json`)
-      .then(response => {
-        setData(response.data);
-        setLoading(false)
-        setPageloading(true)
-        console.log('res', response.data.currentConditions.temp);
-      }).catch(err => {
-        console.log('err', err);
-      });
-  };
-
-  // const valGet = async ()=>{
-  //   try{
-  //     const locality = await AsyncStorage.getItem("location")
-  //     const datagot = JSON.parse(locality)
-  //     setLocation(datagot)
-  //     console.log('location', location)
-  //   }catch(err){
-  //     console.log('err', err)
-  //   }
-  // }
-
-  // const changeData = async()=>{
-  //   if(location){
-  //     setLocation()
-  //   }
-  // }
+  const getAsyncStorage = async () => {
+    try {
+      const getData = await AsyncStorage.getItem('reverseGeoCodeAddress')
+      const getDataParse = JSON.parse(getData)
+      setLoading(true)
+      axios.get(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location?location:getDataParse}?unitGroup=metric&include=hours%2Cdays%2Ccurrent%2Calerts&key=F6RQQ5THZ6QFFEP69BKLW8VYX&contentType=json`)
+        .then(response => {
+          setData(response.data);
+          setLoading(false)
+          setPageloading(true)
+          console.log('res', response.data.currentConditions.temp);
+        }).catch(err => {
+          console.log('err', err);
+        });
+    } catch (err) {
+      console.log('err', err)
+    }
+  }
 
 
-  useEffect(()=>{
-    getData();
-  },[])
+  useEffect(() => {
+    getAsyncStorage();
+  }, [])
 
 
   return (
     <ScrollView style={styles.container}>
       <View style={styles.view1}>
         <Text style={styles.citylist}>City List</Text>
-        {!data ? <Loadingcomponenet /> : <View style={{ height: WindowwHeight * 0.03 }}>
+        {!data ? <View style={{ height: WindowwHeight * 0.03 }}><Text style={styles.chancefor}>Loading...</Text></View> : <View style={{ height: WindowwHeight * 0.03 }}>
           <Text style={styles.chancefor}>Chance for {data.currentConditions.conditions}</Text>
         </View>}
       </View>
@@ -66,16 +54,16 @@ const HomePage = () => {
           value={location}
           onChangeText={text => setLocation(text)}
         />
-        <TouchableOpacity style={[styles.searchbox, { height: WindowwHeight * 0.05 }]} onPress={getData}>
+        <TouchableOpacity style={[styles.searchbox, { height: WindowwHeight * 0.05 }]} onPress={getAsyncStorage}>
           <Image source={require("../Images/Searchicon.png")} style={styles.icon} />
         </TouchableOpacity>
       </View>
       {loading ? <Loadingcomponenet /> :
-        <View style={{alignItems:"center"}} >
+        <View style={{ alignItems: "center" }} >
           <Animated.View style={[styles.viewtest, { height: WindowwHeight * 0.150 }]} entering={FadeInUp} exiting={FadeOutDown}>
+            <Text>{data.currentConditions.temp}</Text>
           </Animated.View>
         </View>
-
       }
     </ScrollView>
   )
@@ -133,7 +121,7 @@ const styles = StyleSheet.create({
     width: "90%",
     backgroundColor: "white",
     borderRadius: 10,
-    marginTop:"5%"
+    marginTop: "5%"
 
   },
   yctxt: {

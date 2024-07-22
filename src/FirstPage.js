@@ -50,7 +50,18 @@ const FirstPage = () => {
                         latitude: currentLocation.coords.latitude
                     });
                     console.log('reverseGeoCodeAddress', reverseGeoCodeAddress);
-                } catch (error) {
+                    if (reverseGeoCodeAddress) {
+                        try {
+                            await AsyncStorage.setItem("reverseGeoCodeAddress", JSON.stringify(reverseGeoCodeAddress[0].city))
+                            console.log(reverseGeoCodeAddress[0].city)
+                        } catch (err) {
+                            console.log('err', err)
+                        }
+                    } else {
+                        console.log("value not stored")
+                    }
+                }
+                catch (error) {
                     console.log('Error in reverse geocoding', error);
                 }
             } else {
@@ -60,25 +71,11 @@ const FirstPage = () => {
             console.log('Error getting location permission or current location:', error);
         }
     }
-
-    // const reverseGeoCode = async () => {
-    //     try {
-    //         const reverseGeoCodeAddress = await Location.reverseGeocodeAsync({
-    //             longitude: location.coords.longitude,
-    //             latitude: location.coords.latitude
-    //         });
-    //         console.log('reverseGeoCodeAddress', reverseGeoCodeAddress);
-    //     } catch (error) {
-    //         console.log('Error in reverse geocoding', error);
-    //     }
-    // }
-
     useEffect(() => {
         getPermission();
         moveBall();
         moveText();
         moveBox();
-        // reverseGeoCode();
     }, []);
 
     const size = 350
