@@ -13,12 +13,11 @@ const HomePage = () => {
   const [location, setLocation] = useState('')
   const [loading, setLoading] = useState(false)
   const [pageloading, setPageloading] = useState(false)
-  const [check, setCheck] = useState('')
 
 
   const getData = () => {
     setLoading(true)
-    axios.get(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location||check}?unitGroup=metric&include=hours%2Cdays%2Ccurrent%2Calerts&key=F6RQQ5THZ6QFFEP69BKLW8VYX&contentType=json`)
+    axios.get(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?unitGroup=metric&include=hours%2Cdays%2Ccurrent%2Calerts&key=F6RQQ5THZ6QFFEP69BKLW8VYX&contentType=json`)
       .then(response => {
         setData(response.data);
         setLoading(false)
@@ -29,26 +28,25 @@ const HomePage = () => {
       });
   };
 
-  const valGet = async ()=>{
-    try{
-      const locality = await AsyncStorage.getItem("location")
-      const datagot = JSON.parse(locality)
-      setLocation(datagot)
-      console.log('location', location)
-    }catch(err){
-      console.log('err', err)
-    }
-  }
+  // const valGet = async ()=>{
+  //   try{
+  //     const locality = await AsyncStorage.getItem("location")
+  //     const datagot = JSON.parse(locality)
+  //     setLocation(datagot)
+  //     console.log('location', location)
+  //   }catch(err){
+  //     console.log('err', err)
+  //   }
+  // }
 
-  const changeData = async()=>{
-    if(location){
-      setLocation()
-    }
-  }
+  // const changeData = async()=>{
+  //   if(location){
+  //     setLocation()
+  //   }
+  // }
 
 
   useEffect(()=>{
-    valGet();
     getData();
   },[])
 

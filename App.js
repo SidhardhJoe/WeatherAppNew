@@ -5,7 +5,6 @@ import FirstPage from './src/FirstPage';
 import { useFonts } from 'expo-font';
 import HomePage from './src/HomePage';
 import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
-import AddLocationPage from "./src/AddLocationPage";
 
 
 const loadFonts = () => {
@@ -48,14 +47,7 @@ export default function App() {
               cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
             }}
           />
-          <Stack.Screen name="AddLocation" component={AddLocationPage}
-            options={{
-              transitionSpec: {
-                open: config,
-                close: config,
-              },
-              cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-            }} />
+          
         </Stack.Navigator>
       </NavigationContainer>
     );

@@ -2,51 +2,83 @@ import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, TouchableOpacity, Text, Animated, StatusBar, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Location from 'expo-location'
 
 const FirstPage = () => {
     const navigation = useNavigation();
     const value = useState(new Animated.ValueXY({ x: -300, y: -300 }))[0];
     const value1 = useState(new Animated.ValueXY({ x: -300, y: 0 }))[0];
     const value2 = useState(new Animated.ValueXY({ x: 0, y: 100 }))[0];
-    const [data, setData] = useState('')
+    const [location, setLocation] = useState();
 
     function moveBall() {
         Animated.timing(value, {
             toValue: { x: -60, y: -40 },
-            duration: 1200,
+            duration: 1500,
             useNativeDriver: false,
         }).start();
     }
     function moveText() {
         Animated.timing(value1, {
             toValue: { x: 20, y: 0 },
-            duration: 1200,
+            duration: 1500,
             useNativeDriver: false,
         }).start();
     }
     function moveBox() {
         Animated.timing(value2, {
             toValue: { x: 0, y: 0 },
-            duration: 1200,
+            duration: 1500,
             useNativeDriver: false,
         }).start()
     }
 
-    const getData = async () => {
+    const getPermission = async () => {
         try {
-            const savedata = await AsyncStorage.getItem("location")
-            const pardata = JSON.parse(savedata)
-            setData(pardata)
-        } catch (err) {
-            console.log('err', err)
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== 'granted') {
+                console.log('Permission to access location was denied');
+                return;
+            }
+            let currentLocation = await Location.getCurrentPositionAsync({});
+            console.log('currentLocation', currentLocation);
+            if (currentLocation && currentLocation.coords) {
+                setLocation(currentLocation);
+                try {
+                    const reverseGeoCodeAddress = await Location.reverseGeocodeAsync({
+                        longitude: currentLocation.coords.longitude,
+                        latitude: currentLocation.coords.latitude
+                    });
+                    console.log('reverseGeoCodeAddress', reverseGeoCodeAddress);
+                } catch (error) {
+                    console.log('Error in reverse geocoding', error);
+                }
+            } else {
+                console.log('No location coordinates available');
+            }
+        } catch (error) {
+            console.log('Error getting location permission or current location:', error);
         }
     }
 
+    // const reverseGeoCode = async () => {
+    //     try {
+    //         const reverseGeoCodeAddress = await Location.reverseGeocodeAsync({
+    //             longitude: location.coords.longitude,
+    //             latitude: location.coords.latitude
+    //         });
+    //         console.log('reverseGeoCodeAddress', reverseGeoCodeAddress);
+    //     } catch (error) {
+    //         console.log('Error in reverse geocoding', error);
+    //     }
+    // }
+
     useEffect(() => {
+        getPermission();
         moveBall();
         moveText();
         moveBox();
-        getData();
+        // reverseGeoCode();
     }, []);
 
     const size = 350
@@ -73,18 +105,12 @@ const FirstPage = () => {
             </Animated.View>
             <View style={styles.lastview}>
                 <Animated.View style={value2.getLayout()}>
-                    {data ? <TouchableOpacity style={styles.bottombox} onPress={() => navigation.navigate('HomePage')}>
+                    <TouchableOpacity style={styles.bottombox} onPress={() => navigation.navigate('HomePage')}>
                         <View>
                             <Text style={styles.lasttxt}>Get Started</Text>
                         </View>
-                    </TouchableOpacity> :
-                        <TouchableOpacity style={styles.bottombox} onPress={() => navigation.navigate('AddLocation')}>
-                            <View>
-                                <Text style={styles.lasttxt}>Get Started</Text>
-                            </View>
-                        </TouchableOpacity>}
+                    </TouchableOpacity>
                 </Animated.View>
-                {console.log('data', data)}
             </View>
         </View>
     );
