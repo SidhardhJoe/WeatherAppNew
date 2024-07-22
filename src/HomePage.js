@@ -58,7 +58,7 @@ const HomePage = () => {
           <Image source={require("../Images/Searchicon.png")} style={styles.icon} />
         </TouchableOpacity>
       </View>
-      {loading ? <Loadingcomponenet /> :
+      {!data ? <Loadingcomponenet /> :
         <View style={{ alignItems: "center" }} >
           <Animated.View style={[styles.viewtest, { height: WindowwHeight * 0.150 }]} entering={FadeInUp} exiting={FadeOutDown}>
             <Text>{data.currentConditions.temp}</Text>
