@@ -1,9 +1,9 @@
-import { StyleSheet, Text, View, ScrollView, TextInput, TouchableOpacity, Image, ActivityIndicator } from 'react-native'
+import { StyleSheet, Text, View, ScrollView, TextInput, TouchableOpacity, Image } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import Loadingcomponenet from './Components/Loadingcomponenet'
 import { useWindowDimensions } from 'react-native';
-import Animated, { FadeIn, FadeInUp, FadeOut, FadeOutDown, FadeOutUp } from 'react-native-reanimated';
+import Animated, { FadeInUp, FadeOutDown } from 'react-native-reanimated';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const HomePage = () => {
@@ -19,12 +19,12 @@ const HomePage = () => {
       const getData = await AsyncStorage.getItem('reverseGeoCodeAddress')
       const getDataParse = JSON.parse(getData)
       setLoading(true)
-      axios.get(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location?location:getDataParse}?unitGroup=metric&include=hours%2Cdays%2Ccurrent%2Calerts&key=F6RQQ5THZ6QFFEP69BKLW8VYX&contentType=json`)
+      axios.get(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location ? location : getDataParse}?unitGroup=metric&include=hours%2Cdays%2Ccurrent%2Calerts&key=F6RQQ5THZ6QFFEP69BKLW8VYX&contentType=json`)
         .then(response => {
           setData(response.data);
           setLoading(false)
           setPageloading(true)
-          console.log('res', response.data.currentConditions.temp);
+          console.log('res', data.resolvedAddress);
         }).catch(err => {
           console.log('err', err);
         });
@@ -53,6 +53,7 @@ const HomePage = () => {
           placeholderTextColor="#7C7C7C"
           value={location}
           onChangeText={text => setLocation(text)}
+          onSubmitEditing={getAsyncStorage}
         />
         <TouchableOpacity style={[styles.searchbox, { height: WindowwHeight * 0.05 }]} onPress={getAsyncStorage}>
           <Image source={require("../Images/Searchicon.png")} style={styles.icon} />
@@ -60,8 +61,21 @@ const HomePage = () => {
       </View>
       {!data ? <Loadingcomponenet /> :
         <View style={{ alignItems: "center" }} >
-          <Animated.View style={[styles.viewtest, { height: WindowwHeight * 0.150 }]} entering={FadeInUp} exiting={FadeOutDown}>
-            <Text>{data.currentConditions.temp}</Text>
+          <Animated.View style={[styles.viewtest, { height: WindowwHeight * 0.150 }]} entering={FadeInUp.duration(700)} exiting={FadeOutDown}  >
+            <View style={[styles.viewsub1, { height: WindowwHeight * 0.150 }]}>
+              <View style={styles.containerforimgtxtview1}>
+                <View style={styles.imgtxtview1}>
+                  <Image source={require("../Images/suncloudwind.png")} style={styles.displayimg} />
+                  <Text style={styles.address}>{data.resolvedAddress}</Text>
+                </View>
+                <View style={styles.imgtxtview2}>
+                  <Text style={styles.forecast}>{data.currentConditions.conditions} forecasted</Text>
+                </View>
+              </View>
+              <View style={styles.tempview}>
+                <Text style={styles.temprature}>{data.currentConditions.temp}°</Text>
+              </View>
+            </View>
           </Animated.View>
         </View>
       }
@@ -130,5 +144,45 @@ const styles = StyleSheet.create({
     fontSize: 16,
     padding: 10,
     marginLeft: "2%"
+  },
+  displayimg: {
+    height: 50,
+    width: 50,
+  },
+  imgtxtview1: {
+    flexDirection: "row",
+    width: "75%",
+    alignItems: "center"
+
+  },
+  viewsub1: {
+    flexDirection: "row"
+  },
+  imgtxtview2: {
+    width: "100",
+  },
+  tempview: {
+    width: "25%",
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: "5%"
+  },
+  containerforimgtxtview1: {
+    width: "65%",
+    justifyContent: "center",
+    marginLeft: "7%"
+  },
+  address: {
+    fontFamily: "GilSemiBold",
+    fontSize: 18,
+    padding: 10
+  },
+  temprature: {
+    fontFamily: "GilBlack",
+    fontSize: 30
+  },
+  forecast: {
+    fontFamily: "GilSemiBold",
+    fontSize: 12
   }
 })
