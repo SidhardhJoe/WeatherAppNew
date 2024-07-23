@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView, TextInput, TouchableOpacity, Image } from 'react-native'
+import { StyleSheet, Text, View, ScrollView, TextInput, TouchableOpacity, Image, FlatList } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import Loadingcomponenet from './Components/Loadingcomponenet'
@@ -13,6 +13,7 @@ const HomePage = () => {
   const [location, setLocation] = useState(null)
   const [loading, setLoading] = useState(false)
   const [pageloading, setPageloading] = useState(false)
+  const time = [{ time: "12AM" }, { time: "1AM" }, { time: "2AM" }, { time: "3AM" }, { time: "4AM" }, { time: "5AM" }, { time: "6AM" }, { time: "7AM" }, { time: "8AM" }, { time: "11AM" }, { time: "12PM" }, { time: "1PM" }, { time: "2PM" }, { time: "3PM" }, { time: "4PM" }, { time: "5PM" }, { time: "6PM" }, { time: "7PM" }, { time: "8PM" }, { time: "9PM" }, { time: "10PM" }, { time: "11PM" }];
 
   const getAsyncStorage = async () => {
     try {
@@ -37,6 +38,22 @@ const HomePage = () => {
   useEffect(() => {
     getAsyncStorage();
   }, [])
+
+  const renderItem = ({ item }) => {
+    return (
+      <View style={styles.flatcontainer}>
+
+        <View>
+          {time.map((time) => (
+            <Text style={{ color: "white" }}>{time.time}</Text>
+          ))}
+          <Image source={require("../Images/suncloudwind.png")} style={styles.weathericon} />
+          <Text style={{ color: "white" }}>{item?.hours[0]?.temp}</Text>
+        </View>
+
+      </View>
+    )
+  };
 
 
   return (
@@ -76,6 +93,15 @@ const HomePage = () => {
                 <Text style={styles.temprature}>{data.currentConditions.temp}°</Text>
               </View>
             </View>
+          </Animated.View>
+          <Animated.View style={[styles.view2, { height: WindowwHeight * 0.180 }]} entering={FadeInUp.duration(1400)} exiting={FadeOutDown}>
+            <Text style={styles.txthf}>HOURLY FORECAST</Text>
+            {data && <Animated.FlatList
+              data={data.days}
+              renderItem={renderItem}
+              horizontal={true}
+              keyExtractor={item => item.datetimeEpoch.toString()}
+            />}
           </Animated.View>
         </View>
       }
@@ -184,5 +210,23 @@ const styles = StyleSheet.create({
   forecast: {
     fontFamily: "GilSemiBold",
     fontSize: 12
+  },
+  view2: {
+    width: "90%",
+    backgroundColor: "#1B1B1B",
+    marginTop: "5%",
+    borderRadius: 10
+  },
+  txthf: {
+    fontFamily: "GilMed",
+    color: "#595959",
+    padding: 10
+  },
+  flatcontainer: {
+    width: 40,
+  },
+  weathericon: {
+    height: 25,
+    width: 25
   }
 })
