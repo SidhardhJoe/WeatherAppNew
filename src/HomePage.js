@@ -13,7 +13,10 @@ const HomePage = () => {
   const [location, setLocation] = useState(null)
   const [loading, setLoading] = useState(false)
   const [pageloading, setPageloading] = useState(false)
-  const time = [{ time: "12AM" }, { time: "1AM" }, { time: "2AM" }, { time: "3AM" }, { time: "4AM" }, { time: "5AM" }, { time: "6AM" }, { time: "7AM" }, { time: "8AM" }, { time: "11AM" }, { time: "12PM" }, { time: "1PM" }, { time: "2PM" }, { time: "3PM" }, { time: "4PM" }, { time: "5PM" }, { time: "6PM" }, { time: "7PM" }, { time: "8PM" }, { time: "9PM" }, { time: "10PM" }, { time: "11PM" }];
+  const times = [
+    "12AM", "1AM", "2AM", "3AM", "4AM", "5AM", "6AM", "7AM", "8AM", "9AM", "10AM", "11AM",
+    "12PM", "1PM", "2PM", "3PM", "4PM", "5PM", "6PM", "7PM", "8PM", "9PM", "10PM", "11PM"
+  ];
 
   const getAsyncStorage = async () => {
     try {
@@ -39,18 +42,14 @@ const HomePage = () => {
     getAsyncStorage();
   }, [])
 
-  const renderItem = ({ item }) => {
+  const renderItem = ({ item, index }) => {
+
+    const timeLabel = times[index] || '';
     return (
       <View style={styles.flatcontainer}>
-
-        <View>
-          {time.map((time) => (
-            <Text style={{ color: "white" }}>{time.time}</Text>
-          ))}
-          <Image source={require("../Images/suncloudwind.png")} style={styles.weathericon} />
-          <Text style={{ color: "white" }}>{item?.hours[0]?.temp}</Text>
-        </View>
-
+        <Text style={styles.timelabel}>{timeLabel}</Text>
+        <Image source={require("../Images/suncloudwind.png")} style={styles.weathericon} />
+        <Text style={styles.templabel}>{item?.temp}°C</Text>
       </View>
     )
   };
@@ -97,10 +96,12 @@ const HomePage = () => {
           <Animated.View style={[styles.view2, { height: WindowwHeight * 0.180 }]} entering={FadeInUp.duration(1400)} exiting={FadeOutDown}>
             <Text style={styles.txthf}>HOURLY FORECAST</Text>
             {data && <Animated.FlatList
-              data={data.days}
+              data={data.days[0].hours}
               renderItem={renderItem}
               horizontal={true}
               keyExtractor={item => item.datetimeEpoch.toString()}
+              style={styles.flatlistview}
+              showsHorizontalScrollIndicator={false}
             />}
           </Animated.View>
         </View>
@@ -223,10 +224,23 @@ const styles = StyleSheet.create({
     padding: 10
   },
   flatcontainer: {
-    width: 40,
+    width: 50,
+    alignItems: "center",
+    gap:5
   },
   weathericon: {
     height: 25,
     width: 25
+  },
+  timelabel: {
+    color: "white",
+    fontFamily: "GilMed",
+  },
+  flatlistview: {
+    marginLeft: 2
+  },
+  templabel:{
+    color:"white",
+    fontFamily:"GilMed"
   }
 })
