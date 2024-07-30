@@ -128,12 +128,10 @@ const HomePage = () => {
         <Loadingcomponenet />
       ) : (
         <View style={{ alignItems: 'center' }}>
-          <TouchableOpacity onPress={() => navigation.navigate("MoreDetails")}>
+          <TouchableOpacity onPress={() => navigation.navigate("MoreDetails")} style={[styles.viewtest, { height: WindowwHeight * 0.150 }]}>
             <Animated.View
-              style={[styles.viewtest, { height: WindowwHeight * 0.150 }]}
-              entering={FadeInUp.duration(700)}
-              exiting={FadeOutDown}
-            >
+              entering={FadeInUp.duration(900)}
+              exiting={FadeOutDown}>
               <View style={[styles.viewsub1, { height: WindowwHeight * 0.150 }]}>
                 <View style={styles.containerforimgtxtview1}>
                   <View style={styles.imgtxtview1}>
@@ -152,7 +150,7 @@ const HomePage = () => {
           </TouchableOpacity>
           <Animated.View
             style={[styles.view2, { height: WindowwHeight * 0.180 }]}
-            entering={FadeInUp.duration(1400)}
+            entering={FadeInUp.duration(900)}
             exiting={FadeOutDown}
           >
             <Text style={styles.txthf}>HOURLY FORECAST</Text>
@@ -206,6 +204,24 @@ const HomePage = () => {
               </View>
               <Text style={styles.uvnum}>{data.currentConditions.visibility} mi</Text>
               <Text style={styles.feelikedet}>{data.currentConditions.visibility>=0.0 && data.currentConditions.visibility <=0.5 ? "Thick fog, heavy snow, or severe weather conditions; hazardous for all outdoor activities and travel." : data.currentConditions.visibility >0.5 && data.currentConditions.visibility <=1 ? "Dense fog, heavy rain, or snow; dangerous for driving and other outdoor activities." : data.currentConditions.visibility >1 && data.currentConditions.visibility <=2 ? "Significant haze, fog, or light rain; can impact driving, especially at higher speeds." : data.currentConditions.visibility >2 && data.currentConditions.visibility <=5 ? "Some haze or light fog; might slightly impact driving or outdoor activities." : data.currentConditions.visibility >5 && data.currentConditions.visibility <=10 ? "Clear with minimal obstructions; suitable for most activities."  : "Perfectly clear skies with no obstructions; ideal for all activities."   }</Text>
+            </View>
+          </Animated.View>
+          <Animated.View style={styles.anview2} entering={FadeInUp.duration(900)} exiting={FadeOutDown}>
+            <View style={[styles.aniviewsub1, { height: WindowwHeight * 0.160 }]}>
+              <View style={styles.sub3}>
+                <Image source={require("../Images/aqi.png")} style={styles.aqiicon} />
+                <Text style={styles.aniviewsub1txt}>Wind Speed</Text>
+              </View>
+              <Text style={styles.uvnum}>{data.currentConditions.windspeed}</Text>
+              <Text style={styles.feelikedet}>{data.currentConditions.windspeed>=0 && data.currentConditions.windspeed <=5 ? "Smoke drift indicates wind direction; leaves do not move." : data.currentConditions.windspeed>=6 && data.currentConditions.windspeed<=11 ? "Leaves rustle; wind felt on face." : data.currentConditions.windspeed>=12 && data.currentConditions.windspeed<=19 ? "Leaves and small twigs in constant motion; light flags extended." : data.currentConditions.windspeed>=20 && data.currentConditions.windspeed<=28 ? "Small branches move; raises dust and loose paper." : data.currentConditions.windspeed>=29 && data.currentConditions.windspeed<=38 ? "Small trees in leaf begin to sway; crested wavelets form on inland waters." : data.currentConditions.windspeed>=39 && data.currentConditions.windspeed<=49 ? "Large branches in motion; umbrellas difficult to use; whistling heard in wires." : "Get to safety"   }</Text>
+            </View>
+            <View style={[styles.aniviewsub1, { height: WindowwHeight * 0.160 }]}>
+              <View style={styles.sub3}>
+                <Image source={require("../Images/Water.png")} style={styles.humicon}/>
+                <Text style={styles.aniviewsub1txt}>Dew</Text>
+              </View>
+              <Text style={styles.uvnum}>{data.currentConditions.dew}</Text>
+              <Text style={styles.feelikedet}>Dew is a measurement which indicates the temperature at which air becomes saturated with moisture and dew forms</Text>
             </View>
           </Animated.View>
         </View>
@@ -414,5 +430,9 @@ const styles = StyleSheet.create({
     fontSize:10,
     paddingHorizontal:"5%",
     textAlign:"left"
+  },
+  aqiicon:{
+    height:19,
+    width:25
   }
 });
