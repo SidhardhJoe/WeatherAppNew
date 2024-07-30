@@ -176,9 +176,15 @@ const HomePage = () => {
               <Text style={styles.uvsentence}>{data.currentConditions.uvindex >= 0 && data.currentConditions.uvindex <= 2 ? "You can safely enjoy being outside!" : data.currentConditions.uvindex >= 3 && data.currentConditions.uvindex <= 7 ? "Seek shade during midday hours! Slip on a shirt, slop on sunscreen and slap on hat!" : "Avoid being outside during midday hours! Make sure you seek shade! Shirt, sunscreen and hat are a must!"}</Text>
             </Animated.View>
             <Animated.View style={[styles.aniviewsub1, { height: WindowwHeight * 0.150 }]}>
-
+              <View style={styles.sub2}>
+                <Image source={require("../Images/humidity.png")} style={styles.humicon}/>
+                <Text style={styles.aniviewsub1txt}>Humidity</Text>
+              </View>
+              <View style={styles.uvdetails}>
+                <Text style={styles.uvnum}>{data.currentConditions.humidity}%</Text>
+              </View>
+              <Text style={styles.uvsentence}>The Dew point is {data.currentConditions.dew} right now</Text>
             </Animated.View>
-
           </Animated.View>
         </View>
       )}
@@ -360,5 +366,14 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 10,
     paddingHorizontal: 10
+  },
+  humicon:{
+    height:20,
+    width:20
+  },
+  sub2:{
+    flexDirection: "row",
+    padding: 6,
+    gap:5
   }
 });
