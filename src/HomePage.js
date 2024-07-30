@@ -5,6 +5,7 @@ import Loadingcomponenet from './Components/Loadingcomponenet'
 import { useWindowDimensions } from 'react-native';
 import Animated, { FadeInUp, FadeOutDown } from 'react-native-reanimated';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { LineChart } from 'react-native-gifted-charts';
 
 const HomePage = () => {
   const [data, setData] = useState('');
@@ -79,8 +80,6 @@ const HomePage = () => {
     }
   };
 
-  // const weatherIcon = getWeatherIcon(item.icon);
-
   const renderItem = ({ item, index }) => {
     const timeLabel = times[index] || '';
     const weatherIcon = getWeatherIcon(item.icon);
@@ -96,7 +95,7 @@ const HomePage = () => {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.view1}>
-        <Text style={styles.citylist}>City List</Text>
+        <Text style={styles.citylist}>Your City</Text>
         {!data ? (
           <View style={{ height: WindowwHeight * 0.03 }}>
             <Text style={styles.chancefor}>Loading...</Text>
@@ -143,7 +142,7 @@ const HomePage = () => {
                 </View>
               </View>
               <View style={styles.tempview}>
-                <Text style={styles.temprature}>{data.currentConditions.temp}°</Text>
+                <Text style={styles.temprature}>{data.currentConditions.temp}°C</Text>
               </View>
             </View>
           </Animated.View>
@@ -163,6 +162,23 @@ const HomePage = () => {
                 showsHorizontalScrollIndicator={false}
               />
             )}
+          </Animated.View>
+          <Animated.View style={styles.anview2} entering={FadeInUp.duration(1950)} exiting={FadeOutDown}>
+            <Animated.View style={[styles.aniviewsub1, { height: WindowwHeight * 0.150 }]}>
+              <View style={styles.sub1}>
+                <Image source={require("../Images/clear-day.png")} style={styles.uvicon} />
+                <Text style={styles.aniviewsub1txt}>UV Index</Text>
+              </View>
+              <View style={styles.uvdetails}>
+                <Text style={styles.uvnum}>{data.currentConditions.uvindex}</Text>
+                <Text style={styles.uvreading}>{data.currentConditions.uvindex >= 0 && data.currentConditions.uvindex <= 2 ? "Low" : data.currentConditions.uvindex >= 3 && data.currentConditions.uvindex <= 5 ? "Moderate" : data.currentConditions.uvindex >= 6 && data.currentConditions.uvindex <= 7 ? "High" : data.currentConditions.uvindex >= 8 && data.currentConditions.uvindex <= 10 ? "Very High" : "Extreme"}</Text>
+              </View>
+              <Text style={styles.uvsentence}>{data.currentConditions.uvindex >= 0 && data.currentConditions.uvindex <= 2 ? "You can safely enjoy being outside!" : data.currentConditions.uvindex >= 3 && data.currentConditions.uvindex <= 7 ? "Seek shade during midday hours! Slip on a shirt, slop on sunscreen and slap on hat!" : "Avoid being outside during midday hours! Make sure you seek shade! Shirt, sunscreen and hat are a must!"}</Text>
+            </Animated.View>
+            <Animated.View style={[styles.aniviewsub1, { height: WindowwHeight * 0.150 }]}>
+
+            </Animated.View>
+
           </Animated.View>
         </View>
       )}
@@ -247,13 +263,13 @@ const styles = StyleSheet.create({
     width: '100',
   },
   tempview: {
-    width: '25%',
+    width: '35%',
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: '5%',
   },
   containerforimgtxtview1: {
-    width: '65%',
+    width: '60%',
     justifyContent: 'center',
     marginLeft: '7%',
   },
@@ -301,4 +317,48 @@ const styles = StyleSheet.create({
     color: 'white',
     fontFamily: 'GilMed',
   },
+  anview2: {
+    flexDirection: "row"
+  },
+  aniviewsub1: {
+    width: "42.5%",
+    backgroundColor: "#1B1B1B",
+    marginHorizontal: "2.5%",
+    marginTop: "5%",
+    borderRadius: 10
+  },
+  aniviewsub1txt: {
+    color: "#595959",
+    fontFamily: "GilMed",
+    marginTop: "2%"
+  },
+  uvicon: {
+    height: 25,
+    width: 25
+  },
+  sub1: {
+    flexDirection: "row",
+    padding: 5
+  },
+  uvdetails: {
+    flexDirection: "row",
+  },
+  uvnum: {
+    color: "white",
+    fontFamily: "GilMed",
+    fontSize: 19,
+    marginLeft: "7%"
+  },
+  uvreading: {
+    fontFamily: "GilSemiBold",
+    color: "white",
+    fontSize: 18,
+    marginLeft: "5%"
+  },
+  uvsentence: {
+    fontFamily: "GilSemiBold",
+    color: "white",
+    fontSize: 10,
+    paddingHorizontal: 10
+  }
 });
