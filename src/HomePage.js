@@ -224,6 +224,10 @@ const HomePage = () => {
               <Text style={styles.feelikedet}>Dew is a measurement which indicates the temperature at which air becomes saturated with moisture and dew forms</Text>
             </View>
           </Animated.View>
+          <Animated.View style={[styles.viewtest1, { height: WindowwHeight * 0.150 }]}>
+
+          </Animated.View>
+          <Text style={styles.lasttxt}>Weather for {data.resolvedAddress}</Text>
         </View>
       )}
     </ScrollView>
@@ -434,5 +438,16 @@ const styles = StyleSheet.create({
   aqiicon:{
     height:19,
     width:25
+  },
+  viewtest1:{
+    width: '90%',
+    backgroundColor: '#1B1B1B',
+    borderRadius: 10,
+    marginVertical: '5%',
+  },
+  lasttxt:{
+    color:"#8B8B8B",
+    fontFamily:"GilBlack",
+    paddingBottom:20
   }
 });
