@@ -6,8 +6,10 @@ import { useWindowDimensions } from 'react-native';
 import Animated, { FadeInUp, FadeOutDown } from 'react-native-reanimated';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LineChart } from 'react-native-gifted-charts';
+import { useNavigation } from '@react-navigation/native';
 
 const HomePage = () => {
+  const navigation = useNavigation();
   const [data, setData] = useState('');
   const WindowwHeight = useWindowDimensions().height;
   const [location, setLocation] = useState(null);
@@ -126,26 +128,28 @@ const HomePage = () => {
         <Loadingcomponenet />
       ) : (
         <View style={{ alignItems: 'center' }}>
-          <Animated.View
-            style={[styles.viewtest, { height: WindowwHeight * 0.150 }]}
-            entering={FadeInUp.duration(700)}
-            exiting={FadeOutDown}
-          >
-            <View style={[styles.viewsub1, { height: WindowwHeight * 0.150 }]}>
-              <View style={styles.containerforimgtxtview1}>
-                <View style={styles.imgtxtview1}>
-                  <Image source={require('../Images/suncloudwind.png')} style={styles.displayimg} />
-                  <Text style={styles.address}>{data.resolvedAddress}</Text>
+          <TouchableOpacity onPress={() => navigation.navigate("MoreDetails")}>
+            <Animated.View
+              style={[styles.viewtest, { height: WindowwHeight * 0.150 }]}
+              entering={FadeInUp.duration(700)}
+              exiting={FadeOutDown}
+            >
+              <View style={[styles.viewsub1, { height: WindowwHeight * 0.150 }]}>
+                <View style={styles.containerforimgtxtview1}>
+                  <View style={styles.imgtxtview1}>
+                    <Image source={require('../Images/suncloudwind.png')} style={styles.displayimg} />
+                    <Text style={styles.address}>{data.resolvedAddress}</Text>
+                  </View>
+                  <View style={styles.imgtxtview2}>
+                    <Text style={styles.forecast}>{data.currentConditions.conditions} forecasted</Text>
+                  </View>
                 </View>
-                <View style={styles.imgtxtview2}>
-                  <Text style={styles.forecast}>{data.currentConditions.conditions} forecasted</Text>
+                <View style={styles.tempview}>
+                  <Text style={styles.temprature}>{data.currentConditions.temp}°C</Text>
                 </View>
               </View>
-              <View style={styles.tempview}>
-                <Text style={styles.temprature}>{data.currentConditions.temp}°C</Text>
-              </View>
-            </View>
-          </Animated.View>
+            </Animated.View>
+          </TouchableOpacity>
           <Animated.View
             style={[styles.view2, { height: WindowwHeight * 0.180 }]}
             entering={FadeInUp.duration(1400)}
@@ -163,7 +167,7 @@ const HomePage = () => {
               />
             )}
           </Animated.View>
-          <Animated.View style={styles.anview2} entering={FadeInUp.duration(1950)} exiting={FadeOutDown}>
+          <Animated.View style={styles.anview2} entering={FadeInUp.duration(900)} exiting={FadeOutDown}>
             <Animated.View style={[styles.aniviewsub1, { height: WindowwHeight * 0.150 }]}>
               <View style={styles.sub1}>
                 <Image source={require("../Images/clear-day.png")} style={styles.uvicon} />
@@ -177,7 +181,7 @@ const HomePage = () => {
             </Animated.View>
             <Animated.View style={[styles.aniviewsub1, { height: WindowwHeight * 0.150 }]}>
               <View style={styles.sub2}>
-                <Image source={require("../Images/humidity.png")} style={styles.humicon}/>
+                <Image source={require("../Images/humidity.png")} style={styles.humicon} />
                 <Text style={styles.aniviewsub1txt}>Humidity</Text>
               </View>
               <View style={styles.uvdetails}>
@@ -185,6 +189,24 @@ const HomePage = () => {
               </View>
               <Text style={styles.uvsentence}>The Dew point is {data.currentConditions.dew} right now</Text>
             </Animated.View>
+          </Animated.View>
+          <Animated.View style={styles.anview2} entering={FadeInUp.duration(900)} exiting={FadeOutDown}>
+            <View style={[styles.aniviewsub1, { height: WindowwHeight * 0.160 }]}>
+              <View style={styles.sub3}>
+                <Image source={require("../Images/thermo.png")} style={styles.thermoicon} />
+                <Text style={styles.aniviewsub1txt}>Feels Like</Text>
+              </View>
+              <Text style={styles.uvnum}>{data.currentConditions.feelslike}°</Text>
+              <Text style={styles.feelikedet}>Feels like is calculated using the ambient temperature, humidity level and wind speed</Text>
+            </View>
+            <View style={[styles.aniviewsub1, { height: WindowwHeight * 0.160 }]}>
+              <View style={styles.sub3}>
+                <Image source={require("../Images/visi.png")} style={styles.humicon}/>
+                <Text style={styles.aniviewsub1txt}>Visiblity</Text>
+              </View>
+              <Text style={styles.uvnum}>{data.currentConditions.visibility} mi</Text>
+              <Text style={styles.feelikedet}>{data.currentConditions.visibility>=0.0 && data.currentConditions.visibility <=0.5 ? "Thick fog, heavy snow, or severe weather conditions; hazardous for all outdoor activities and travel." : data.currentConditions.visibility >0.5 && data.currentConditions.visibility <=1 ? "Dense fog, heavy rain, or snow; dangerous for driving and other outdoor activities." : data.currentConditions.visibility >1 && data.currentConditions.visibility <=2 ? "Significant haze, fog, or light rain; can impact driving, especially at higher speeds." : data.currentConditions.visibility >2 && data.currentConditions.visibility <=5 ? "Some haze or light fog; might slightly impact driving or outdoor activities." : data.currentConditions.visibility >5 && data.currentConditions.visibility <=10 ? "Clear with minimal obstructions; suitable for most activities."  : "Perfectly clear skies with no obstructions; ideal for all activities."   }</Text>
+            </View>
           </Animated.View>
         </View>
       )}
@@ -367,13 +389,30 @@ const styles = StyleSheet.create({
     fontSize: 10,
     paddingHorizontal: 10
   },
-  humicon:{
-    height:20,
-    width:20
+  humicon: {
+    height: 20,
+    width: 20
   },
-  sub2:{
+  sub2: {
     flexDirection: "row",
     padding: 6,
+    gap: 5
+  },
+  thermoicon: {
+    height: 18,
+    width: 7,
+    marginTop:"2%"
+  },
+  sub3:{
+    flexDirection:"row",
+    padding:10,
     gap:5
+  },
+  feelikedet:{
+    fontFamily:"GilSemiBold",
+    color:"white",
+    fontSize:10,
+    paddingHorizontal:"5%",
+    textAlign:"left"
   }
 });
