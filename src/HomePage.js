@@ -1,11 +1,10 @@
-import { StyleSheet, Text, View, ScrollView, TextInput, TouchableOpacity, Image, FlatList } from 'react-native'
+import { StyleSheet, Text, View, ScrollView, TextInput, TouchableOpacity, Image } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import Loadingcomponenet from './Components/Loadingcomponenet'
 import { useWindowDimensions } from 'react-native';
 import Animated, { FadeInUp, FadeOutDown } from 'react-native-reanimated';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { LineChart } from 'react-native-gifted-charts';
 import { useNavigation } from '@react-navigation/native';
 
 const HomePage = () => {
@@ -175,7 +174,7 @@ const HomePage = () => {
                 <Text style={styles.uvnum}>{data.currentConditions.uvindex}</Text>
                 <Text style={styles.uvreading}>{data.currentConditions.uvindex >= 0 && data.currentConditions.uvindex <= 2 ? "Low" : data.currentConditions.uvindex >= 3 && data.currentConditions.uvindex <= 5 ? "Moderate" : data.currentConditions.uvindex >= 6 && data.currentConditions.uvindex <= 7 ? "High" : data.currentConditions.uvindex >= 8 && data.currentConditions.uvindex <= 10 ? "Very High" : "Extreme"}</Text>
               </View>
-              <Text style={styles.uvsentence}>{data.currentConditions.uvindex >= 0 && data.currentConditions.uvindex <= 2 ? "You can safely enjoy being outside!" : data.currentConditions.uvindex >= 3 && data.currentConditions.uvindex <= 7 ? "Seek shade during midday hours! Slip on a shirt, slop on sunscreen and slap on hat!" : "Avoid being outside during midday hours! Make sure you seek shade! Shirt, sunscreen and hat are a must!"}</Text>
+              <Text style={styles.uvsentence}>{data.currentConditions.uvindex >= 0 && data.currentConditions.uvindex <= 2 ? "You can safely enjoy being outside!" : data.currentConditions.uvindex >= 3 && data.currentConditions.uvindex <= 7 ? "Seek shade during midday! Slip on a shirt, slop on sunscreen and slap on hat!" : "Avoid being outside during midday! Make sure you seek shade! Shirt, sunscreen and hat are a must!"}</Text>
             </Animated.View>
             <Animated.View style={[styles.aniviewsub1, { height: WindowwHeight * 0.150 }]}>
               <View style={styles.sub2}>
@@ -199,11 +198,11 @@ const HomePage = () => {
             </View>
             <View style={[styles.aniviewsub1, { height: WindowwHeight * 0.160 }]}>
               <View style={styles.sub3}>
-                <Image source={require("../Images/visi.png")} style={styles.humicon}/>
+                <Image source={require("../Images/visi.png")} style={styles.humicon} />
                 <Text style={styles.aniviewsub1txt}>Visiblity</Text>
               </View>
               <Text style={styles.uvnum}>{data.currentConditions.visibility} mi</Text>
-              <Text style={styles.feelikedet}>{data.currentConditions.visibility>=0.0 && data.currentConditions.visibility <=0.5 ? "Thick fog, heavy snow, or severe weather conditions; hazardous for all outdoor activities and travel." : data.currentConditions.visibility >0.5 && data.currentConditions.visibility <=1 ? "Dense fog, heavy rain, or snow; dangerous for driving and other outdoor activities." : data.currentConditions.visibility >1 && data.currentConditions.visibility <=2 ? "Significant haze, fog, or light rain; can impact driving, especially at higher speeds." : data.currentConditions.visibility >2 && data.currentConditions.visibility <=5 ? "Some haze or light fog; might slightly impact driving or outdoor activities." : data.currentConditions.visibility >5 && data.currentConditions.visibility <=10 ? "Clear with minimal obstructions; suitable for most activities."  : "Perfectly clear skies with no obstructions; ideal for all activities."   }</Text>
+              <Text style={styles.feelikedet}>{data.currentConditions.visibility >= 0.0 && data.currentConditions.visibility <= 0.5 ? "Thick fog, heavy snow, or severe weather conditions; hazardous for all outdoor activities and travel." : data.currentConditions.visibility > 0.5 && data.currentConditions.visibility <= 1 ? "Dense fog, heavy rain, or snow; dangerous for driving and other outdoor activities." : data.currentConditions.visibility > 1 && data.currentConditions.visibility <= 2 ? "Significant haze, fog, or light rain; can impact driving, especially at higher speeds." : data.currentConditions.visibility > 2 && data.currentConditions.visibility <= 5 ? "Some haze or light fog; might slightly impact driving or outdoor activities." : data.currentConditions.visibility > 5 && data.currentConditions.visibility <= 10 ? "Clear with minimal obstructions; suitable for most activities." : "Perfectly clear skies with no obstructions; ideal for all activities."}</Text>
             </View>
           </Animated.View>
           <Animated.View style={styles.anview2} entering={FadeInUp.duration(900)} exiting={FadeOutDown}>
@@ -213,19 +212,33 @@ const HomePage = () => {
                 <Text style={styles.aniviewsub1txt}>Wind Speed</Text>
               </View>
               <Text style={styles.uvnum}>{data.currentConditions.windspeed}</Text>
-              <Text style={styles.feelikedet}>{data.currentConditions.windspeed>=0 && data.currentConditions.windspeed <=5 ? "Smoke drift indicates wind direction; leaves do not move." : data.currentConditions.windspeed>=6 && data.currentConditions.windspeed<=11 ? "Leaves rustle; wind felt on face." : data.currentConditions.windspeed>=12 && data.currentConditions.windspeed<=19 ? "Leaves and small twigs in constant motion; light flags extended." : data.currentConditions.windspeed>=20 && data.currentConditions.windspeed<=28 ? "Small branches move; raises dust and loose paper." : data.currentConditions.windspeed>=29 && data.currentConditions.windspeed<=38 ? "Small trees in leaf begin to sway; crested wavelets form on inland waters." : data.currentConditions.windspeed>=39 && data.currentConditions.windspeed<=49 ? "Large branches in motion; umbrellas difficult to use; whistling heard in wires." : "Get to safety"   }</Text>
+              <Text style={styles.feelikedet}>{data.currentConditions.windspeed >= 0 && data.currentConditions.windspeed <= 5 ? "Smoke drift indicates wind direction; leaves do not move." : data.currentConditions.windspeed >= 6 && data.currentConditions.windspeed <= 11 ? "Leaves rustle; wind felt on face." : data.currentConditions.windspeed >= 12 && data.currentConditions.windspeed <= 19 ? "Leaves and small twigs in constant motion; light flags extended." : data.currentConditions.windspeed >= 20 && data.currentConditions.windspeed <= 28 ? "Small branches move; raises dust and loose paper." : data.currentConditions.windspeed >= 29 && data.currentConditions.windspeed <= 38 ? "Small trees in leaf begin to sway; crested wavelets form on inland waters." : data.currentConditions.windspeed >= 39 && data.currentConditions.windspeed <= 49 ? "Large branches in motion; umbrellas difficult to use; whistling heard in wires." : "Get to safety"}</Text>
             </View>
             <View style={[styles.aniviewsub1, { height: WindowwHeight * 0.160 }]}>
               <View style={styles.sub3}>
-                <Image source={require("../Images/Water.png")} style={styles.humicon}/>
+                <Image source={require("../Images/Water.png")} style={styles.humicon} />
                 <Text style={styles.aniviewsub1txt}>Dew</Text>
               </View>
               <Text style={styles.uvnum}>{data.currentConditions.dew}</Text>
               <Text style={styles.feelikedet}>Dew is a measurement which indicates the temperature at which air becomes saturated with moisture and dew forms</Text>
             </View>
           </Animated.View>
-          <Animated.View style={[styles.viewtest1, { height: WindowwHeight * 0.150 }]}>
-
+          <Animated.View style={[styles.viewtest1, { height: WindowwHeight * 0.145 }]}>
+            <View style={styles.alignitemss}>
+              <Image source={require("../Images/sunrise.png")} style={styles.sunrise} />
+              <Text style={styles.sunrisetxt}>sunrise</Text>
+              <Text style={styles.sunrisetxt}>{data.currentConditions.sunrise}</Text>
+            </View>
+            <View style={styles.center}>
+              <Image source={require("../Images/sun.png")} style={styles.clouds} />
+              <Text style={styles.sunrisetxt}>cloud cover</Text>
+              <Text style={styles.sunrisetxt}>{data.currentConditions.cloudcover}</Text>
+            </View>
+            <View style={styles.alignitemss}>
+              <Image source={require("../Images/sunset.png")} style={styles.sunrise} />
+              <Text style={styles.sunrisetxt}>sunset</Text>
+              <Text style={styles.sunrisetxt}>{data.currentConditions.sunset}</Text>
+            </View>
           </Animated.View>
           <Text style={styles.lasttxt}>Weather for {data.resolvedAddress}</Text>
         </View>
@@ -421,33 +434,57 @@ const styles = StyleSheet.create({
   thermoicon: {
     height: 18,
     width: 7,
-    marginTop:"2%"
+    marginTop: "2%"
   },
-  sub3:{
-    flexDirection:"row",
-    padding:10,
-    gap:5
+  sub3: {
+    flexDirection: "row",
+    padding: 10,
+    gap: 5
   },
-  feelikedet:{
-    fontFamily:"GilSemiBold",
-    color:"white",
-    fontSize:10,
-    paddingHorizontal:"5%",
-    textAlign:"left"
+  feelikedet: {
+    fontFamily: "GilSemiBold",
+    color: "white",
+    fontSize: 10,
+    paddingHorizontal: "5%",
+    textAlign: "left"
   },
-  aqiicon:{
-    height:19,
-    width:25
+  aqiicon: {
+    height: 19,
+    width: 25
   },
-  viewtest1:{
+  viewtest1: {
     width: '90%',
     backgroundColor: '#1B1B1B',
     borderRadius: 10,
     marginVertical: '5%',
+    paddingHorizontal: "5%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+
   },
-  lasttxt:{
-    color:"#8B8B8B",
-    fontFamily:"GilBlack",
-    paddingBottom:20
+  lasttxt: {
+    color: "#8B8B8B",
+    fontFamily: "GilBlack",
+    paddingBottom: 20
+  },
+  sunrise: {
+    height: 40,
+    width: 40,
+  },
+  sunrisetxt: {
+    color: "white",
+    fontFamily: "GilSemiBold"
+  },
+  clouds: {
+    height: 40,
+    width: 40,
+    marginTop: "2%"
+  },
+  alignitemss: {
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  center: {
+    alignItems: "center"
   }
 });
