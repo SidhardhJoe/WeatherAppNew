@@ -82,7 +82,7 @@ const HomePage = () => {
   };
 
   const renderItem = ({ item, index }) => {
-    const timeLabel = times[index] || '';
+    const timeLabel = times[index] || ' ';
     const weatherIcon = getWeatherIcon(item.icon);
     return (
       <View style={styles.flatcontainer}>
