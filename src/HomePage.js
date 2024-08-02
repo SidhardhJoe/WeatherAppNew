@@ -465,7 +465,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: "5%",
     flexDirection: "row",
     justifyContent: "space-between",
-
   },
   lasttxt: {
     color: "#8B8B8B",
