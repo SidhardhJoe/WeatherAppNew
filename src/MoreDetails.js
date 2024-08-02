@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView, StatusBar, Animated } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Animated } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useWindowDimensions } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -40,11 +40,20 @@ const MoreDetails = ({ route }) => {
 
   return (
     <ScrollView style={styles.container}>
-      <StatusBar hidden={true} />
       <Animated.View style={value.getLayout()}>
-        <View style={[styles.headerview, { height: WindowHeight * 0.38 }]}>
+        <View style={[styles.headerview, { height: WindowHeight * 0.22 }]}>
           <View style={styles.headerview1}>
-            <Text>{response ? response.resolvedAddress : 'Loading...'}</Text>
+            <Text style={styles.addresstxt}>{response ? response.address : 'Loading...'}</Text>
+          </View>
+          <View style={styles.headerview2}>
+            <Text style={styles.currentcondi}>{response ? response.currentConditions.conditions : 'Loading...'}</Text>
+          </View>
+          <View style={styles.headerview2}>
+            <Text style={styles.currenttemp}>{response ? response.currentConditions.temp : 'Loading...'}°</Text>
+          </View>
+          <View style={styles.headerview3}>
+            <Text style={styles.temps}>H: {response ? response.days[0].tempmax : 'Loading...'}° . </Text>
+            <Text style={styles.temps}> L: {response? response.days[0].tempmin : 'Loading...' }°</Text>
           </View>
         </View>
       </Animated.View>
@@ -61,8 +70,36 @@ const styles = StyleSheet.create({
   },
   headerview: {
     width: "100%",
-    backgroundColor: "#9F2B68",
-    borderBottomLeftRadius: 70,
-    borderBottomRightRadius: 70
+    backgroundColor: "#e4faff",
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30
+  },
+  headerview1:{
+    alignItems:"center",
+    marginTop:"3%"
+  },
+  addresstxt:{
+    fontFamily:"GilSemiBold",
+    fontSize:28
+  },
+  currentcondi:{
+    fontFamily:"GilSemiBold",
+    fontSize:16
+  },
+  headerview2:{
+    alignItems:"center",
+    marginTop:"1%"
+  },
+  currenttemp:{
+    fontFamily:"GilBlack",
+    fontSize:38
+  },
+  headerview3:{
+    flexDirection:"row",
+    justifyContent:"center",
+    marginTop:"2%"
+  },
+  temps:{
+    fontFamily:"GilSemiBold"
   }
 });
