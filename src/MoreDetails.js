@@ -11,12 +11,13 @@ const MoreDetails = ({ route }) => {
   const [response, setResponse] = useState(null);
   const { location } = route.params;
   const value = useState(new Animated.ValueXY({ x: 0, y: -300 }))[0];
+  // const value1 = useState(new Animated.ValueXY({ x: 350, y: 0 }))[0];
 
   const getAsyncStorageValue = async () => {
     try {
       const storeAsyncValue = await AsyncStorage.getItem("reverseGeoCodeAddress");
       setAsyncvalue(storeAsyncValue);
-      const loc = location ? location : storeAsyncValue;
+      const loc = location ? location : JSON.parse(storeAsyncValue);
       const weatherResponse = await axios.get(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${loc}?unitGroup=metric&include=hours%2Cdays%2Ccurrent%2Calerts&key=F6RQQ5THZ6QFFEP69BKLW8VYX&contentType=json`);
       setResponse(weatherResponse.data);
       console.log('response', weatherResponse.data.address);
@@ -72,15 +73,24 @@ const MoreDetails = ({ route }) => {
     }).start();
   }
 
+  // const moveForecast = () => {
+  //   Animated.timing(value1, {
+  //     toValue: { x: 0, y: 0 },
+  //     duration: 1500,
+  //     useNativeDriver: false,
+  //   }).start();
+  // }
+
   useEffect(() => {
     getAsyncStorageValue();
     moveBall();
+    // moveForecast();
   }, []);
 
   const renderItem = ({ item }) => {
     const weatherIcon = getWeatherIcon(item.icon);
     return (
-      <View style={[styles.flatlistcontainer, {height:WindowHeight*0.04}]}>
+      <View style={[styles.flatlistcontainer, { height: WindowHeight * 0.04 }]}>
         <View style={styles.view1}>
           <Text style={styles.view1txt}>{item.datetime}</Text>
         </View>
@@ -92,7 +102,7 @@ const MoreDetails = ({ route }) => {
           <Text style={styles.view1txt}>{item.tempmax}°</Text>
         </View>
         <View style={styles.view4}>
-          <Image source={weatherIcon} style={styles.clouds}/>
+          <Image source={weatherIcon} style={styles.clouds} />
         </View>
       </View>
     );
@@ -117,17 +127,23 @@ const MoreDetails = ({ route }) => {
           </View>
         </View>
       </Animated.View>
-      <Animated.View style={[styles.tendayforecast, { height: WindowHeight * 0.5 }]}>
-        <View style={styles.headingview}>
-          <Image source={require("../Images/calender.png")} style={styles.calender} />
-          <Text style={styles.forecasttxt}>10-Day Forecast</Text>
+      <Animated.View >
+        <View style={[styles.tendayforecast, { height: WindowHeight * 0.5 }]}>
+          <View style={styles.headingview}>
+            <Image source={require("../Images/calender.png")} style={styles.calender} />
+            <Text style={styles.forecasttxt}>10-Day Forecast</Text>
+          </View>
+          <FlatList
+            data={response ? response.days : []}
+            renderItem={renderItem}
+            keyExtractor={item => item.datetimeEpoch.toString()}
+            showsVerticalScrollIndicator={false}
+            style={{marginBottom:"1%"}}
+          />
         </View>
-        <FlatList
-          data={response ? response.days : []}
-          renderItem={renderItem}
-          keyExtractor={item => item.datetimeEpoch.toString()}
-          showsVerticalScrollIndicator={false}
-        />
+      </Animated.View>
+      <Animated.View style={styles.weatherfacts}>
+
       </Animated.View>
     </View>
   );
@@ -198,29 +214,29 @@ const styles = StyleSheet.create({
     height: 5,
     width: "30%",
     backgroundColor: "blue",
-    borderRadius:10
+    borderRadius: 10
   },
-  clouds:{
-    height:25,
-    width:25
+  clouds: {
+    height: 25,
+    width: 25
   },
-  flatlistcontainer:{
-    flexDirection:"row",
-    justifyContent:"space-between",
-    marginHorizontal:"3%",
-    alignItems:"center"
+  flatlistcontainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginHorizontal: "3%",
+    alignItems: "center"
   },
-  view1txt:{
-    fontFamily:"GilMed",
-    color:"white"
+  view1txt: {
+    fontFamily: "GilMed",
+    color: "white"
   },
-  view1:{
-    width:"27%"
+  view1: {
+    width: "27%"
   },
-  view2:{
-    width:"12%"
+  view2: {
+    width: "12%"
   },
-  view3:{
-    width:"12%"
+  view3: {
+    width: "12%"
   }
 });
