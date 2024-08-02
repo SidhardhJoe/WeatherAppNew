@@ -16,7 +16,6 @@ const MoreDetails = ({ route }) => {
       const storeAsyncValue = await AsyncStorage.getItem("reverseGeoCodeAddress");
       setAsyncvalue(storeAsyncValue);
       const loc = location ? location : storeAsyncValue;
-
       const weatherResponse = await axios.get(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${loc}?unitGroup=metric&include=hours%2Cdays%2Ccurrent%2Calerts&key=F6RQQ5THZ6QFFEP69BKLW8VYX&contentType=json`);
       setResponse(weatherResponse.data);
       console.log('response', weatherResponse.data.address);
