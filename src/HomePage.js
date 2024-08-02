@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView, TextInput, TouchableOpacity, Image } from 'react-native'
+import { StyleSheet, Text, View, ScrollView, TextInput, TouchableOpacity, Image, RefreshControl } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import Loadingcomponenet from './Components/Loadingcomponenet'
@@ -14,15 +14,18 @@ const HomePage = () => {
   const [location, setLocation] = useState(null);
   const [loading, setLoading] = useState(false);
   const [pageloading, setPageloading] = useState(false);
+  const [savedataparse, setSavedataparse] = useState(null)
   const times = [
     "12AM", "1AM", "2AM", "3AM", "4AM", "5AM", "6AM", "7AM", "8AM", "9AM", "10AM", "11AM",
     "12PM", "1PM", "2PM", "3PM", "4PM", "5PM", "6PM", "7PM", "8PM", "9PM", "10PM", "11PM"
   ];
+  const [refreshing, setRefreshing] = useState(false);
 
   const getAsyncStorage = async () => {
     try {
       const getData = await AsyncStorage.getItem('reverseGeoCodeAddress');
       const getDataParse = JSON.parse(getData);
+      setSavedataparse(getDataParse);
       setLoading(true);
       axios.get(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location ? location : getDataParse}?unitGroup=metric&include=hours%2Cdays%2Ccurrent%2Calerts&key=F6RQQ5THZ6QFFEP69BKLW8VYX&contentType=json`)
         .then(response => {
@@ -94,7 +97,9 @@ const HomePage = () => {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} refreshControl={
+      <RefreshControl refreshing={refreshing} onRefresh={getAsyncStorage} />
+    }>
       <View style={styles.view1}>
         <Text style={styles.citylist}>Your City</Text>
         {!data ? (
@@ -127,7 +132,7 @@ const HomePage = () => {
         <Loadingcomponenet />
       ) : (
         <View style={{ alignItems: 'center' }}>
-          <TouchableOpacity onPress={() => navigation.navigate("MoreDetails")} style={[styles.viewtest, { height: WindowwHeight * 0.150 }]}>
+          <TouchableOpacity onPress={() => navigation.navigate("MoreDetails", { location, savedataparse })} style={[styles.viewtest, { height: WindowwHeight * 0.150 }]}>
             <Animated.View
               entering={FadeInUp.duration(900)}
               exiting={FadeOutDown}>

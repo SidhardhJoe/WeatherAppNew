@@ -48,8 +48,15 @@ export default function App() {
               cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
             }}
           />
-          <Stack.Screen name="MoreDetails" component={MoreDetails}/>
-          
+          <Stack.Screen name="MoreDetails" component={MoreDetails}
+            options={{
+              transitionSpec: {
+                open: config,
+                close: config,
+              },
+              cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+            }} />
+
         </Stack.Navigator>
       </NavigationContainer>
     );
