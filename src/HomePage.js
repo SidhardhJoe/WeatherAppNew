@@ -104,7 +104,7 @@ const HomePage = () => {
         <Text style={styles.citylist}>Your City</Text>
         {!data ? (
           <View style={{ height: WindowwHeight * 0.03 }}>
-            <Text style={styles.chancefor}>Loading...</Text>
+            <Text style={styles.chancefor}>Loading....</Text>
           </View>
         ) : (
           <View style={{ height: WindowwHeight * 0.03 }}>
