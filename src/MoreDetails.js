@@ -143,7 +143,9 @@ const MoreDetails = ({ route }) => {
         </View>
       </Animated.View>
       <Animated.View style={styles.weatherfacts}>
-
+        <View>
+          
+        </View>
       </Animated.View>
     </View>
   );
