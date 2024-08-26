@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Animated, Image, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Animated, Image, FlatList, StatusBar, ScrollView } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useWindowDimensions } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -11,7 +11,7 @@ const MoreDetails = ({ route }) => {
   const [response, setResponse] = useState(null);
   const { location } = route.params;
   const value = useState(new Animated.ValueXY({ x: 0, y: -300 }))[0];
-  // const value1 = useState(new Animated.ValueXY({ x: 350, y: 0 }))[0];
+  const value1 = useState(new Animated.ValueXY({ x: 350, y: 0 }))[0];
 
   const getAsyncStorageValue = async () => {
     try {
@@ -73,18 +73,18 @@ const MoreDetails = ({ route }) => {
     }).start();
   }
 
-  // const moveForecast = () => {
-  //   Animated.timing(value1, {
-  //     toValue: { x: 0, y: 0 },
-  //     duration: 1500,
-  //     useNativeDriver: false,
-  //   }).start();
-  // }
+  const moveForecast = () => {
+    Animated.timing(value1, {
+      toValue: { x: 0, y: 0 },
+      duration: 1500,
+      useNativeDriver: false,
+    }).start();
+  }
 
   useEffect(() => {
     getAsyncStorageValue();
     moveBall();
-    // moveForecast();
+    moveForecast();
   }, []);
 
   const renderItem = ({ item }) => {
@@ -101,7 +101,7 @@ const MoreDetails = ({ route }) => {
         <View style={styles.view3}>
           <Text style={styles.view1txt}>{item.tempmax}°</Text>
         </View>
-        <View style={styles.view4}>
+        <View >
           <Image source={weatherIcon} style={styles.clouds} />
         </View>
       </View>
@@ -109,7 +109,8 @@ const MoreDetails = ({ route }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
+      <StatusBar></StatusBar>
       <Animated.View style={value.getLayout()}>
         <View style={[styles.headerview, { height: WindowHeight * 0.22 }]}>
           <View style={styles.headerview1}>
@@ -127,7 +128,7 @@ const MoreDetails = ({ route }) => {
           </View>
         </View>
       </Animated.View>
-      <Animated.View >
+      <Animated.View style={value1.getLayout()} >
         <View style={[styles.tendayforecast, { height: WindowHeight * 0.5 }]}>
           <View style={styles.headingview}>
             <Image source={require("../Images/calender.png")} style={styles.calender} />
@@ -143,11 +144,11 @@ const MoreDetails = ({ route }) => {
         </View>
       </Animated.View>
       <Animated.View style={styles.weatherfacts}>
-        <View>
-          
+        <View style={[styles.smallcontainer1, { height: WindowHeight * 0.150 }]}>
+
         </View>
       </Animated.View>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -240,5 +241,11 @@ const styles = StyleSheet.create({
   },
   view3: {
     width: "12%"
+  },
+  smallcontainer1:{
+    width: "42.5%",
+    backgroundColor: "#1B1B1B",
+    marginHorizontal: "5%",
+    borderRadius: 10,
   }
 });
