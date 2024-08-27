@@ -170,6 +170,7 @@ const HomePage = () => {
             )}
           </Animated.View>
           <Animated.View style={styles.anview2} entering={FadeInUp.duration(900)} exiting={FadeOutDown}>
+            
             <Animated.View style={[styles.aniviewsub1, { height: WindowwHeight * 0.150 }]}>
               <View style={styles.sub1}>
                 <Image source={require("../Images/clear-day.png")} style={styles.uvicon} />
@@ -181,6 +182,7 @@ const HomePage = () => {
               </View>
               <Text style={styles.uvsentence}>{data.currentConditions.uvindex >= 0 && data.currentConditions.uvindex <= 2 ? "You can safely enjoy being outside!" : data.currentConditions.uvindex >= 3 && data.currentConditions.uvindex <= 7 ? "Seek shade during midday! Slip on a shirt, slop on sunscreen and slap on hat!" : "Avoid being outside during midday! Make sure you seek shade! Shirt, sunscreen and hat are a must!"}</Text>
             </Animated.View>
+
             <Animated.View style={[styles.aniviewsub1, { height: WindowwHeight * 0.150 }]}>
               <View style={styles.sub2}>
                 <Image source={require("../Images/humidity.png")} style={styles.humicon} />

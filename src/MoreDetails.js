@@ -109,10 +109,10 @@ const MoreDetails = ({ route }) => {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       <StatusBar></StatusBar>
       <Animated.View style={value.getLayout()}>
-        <View style={[styles.headerview, { height: WindowHeight * 0.22 }]}>
+        <View style={[styles.headerview, { height: WindowHeight * 0.25 }]}>
           <View style={styles.headerview1}>
             <Text style={styles.addresstxt}>{response ? response.address : 'Loading...'}</Text>
           </View>
@@ -129,7 +129,7 @@ const MoreDetails = ({ route }) => {
         </View>
       </Animated.View>
       <Animated.View style={value1.getLayout()} >
-        <View style={[styles.tendayforecast, { height: WindowHeight * 0.5 }]}>
+        <View style={[styles.tendayforecast, { height: WindowHeight * 0.29 }]}>
           <View style={styles.headingview}>
             <Image source={require("../Images/calender.png")} style={styles.calender} />
             <Text style={styles.forecasttxt}>10-Day Forecast</Text>
@@ -139,16 +139,30 @@ const MoreDetails = ({ route }) => {
             renderItem={renderItem}
             keyExtractor={item => item.datetimeEpoch.toString()}
             showsVerticalScrollIndicator={false}
-            style={{marginBottom:"1%"}}
+            style={{ marginBottom: "1%" }}
           />
         </View>
       </Animated.View>
       <Animated.View style={styles.weatherfacts}>
         <View style={[styles.smallcontainer1, { height: WindowHeight * 0.150 }]}>
-
+          <View style={styles.smallcontainer10}>
+            <Image source={require("../Images/solarrad.png")} style={styles.solarrad} />
+            <Text style={styles.forecasttxt}> Solar Radiation</Text>
+          </View>
+          <View>
+            <Text style={styles.solarradtxt}>{response? response.currentConditions.solarradiation : "Loading..."}nm</Text>
+            <Text style={styles.detailstxt}>Take adequate precaution</Text>
+          </View>
+        </View>
+        <View style={[styles.smallcontainer1, { height: WindowHeight * 0.150 }]}>
         </View>
       </Animated.View>
-    </ScrollView>
+      <Animated.View>
+        <View style={[styles.largecontainer1, { height: WindowHeight * 0.170 }]}>
+          
+        </View>
+      </Animated.View>
+    </View>
   );
 }
 
@@ -242,10 +256,41 @@ const styles = StyleSheet.create({
   view3: {
     width: "12%"
   },
-  smallcontainer1:{
+  smallcontainer1: {
     width: "42.5%",
     backgroundColor: "#1B1B1B",
-    marginHorizontal: "5%",
+    marginLeft: "5%",
     borderRadius: 10,
+  },
+  weatherfacts: {
+    flexDirection: "row"
+  },
+  largecontainer1: {
+    width: "90%",
+    backgroundColor: "#1B1B1B",
+    marginLeft: "5%",
+    borderRadius: 10,
+    marginVertical: "5%"
+  },
+  solarrad: {
+    height: 20,
+    width: 20,
+
+  },
+  smallcontainer10:{
+    flexDirection:"row",
+    margin: 5
+  },
+  solarradtxt:{
+    color: "white",
+    fontFamily: "GilSemiBold",
+    fontSize: 17,
+    marginLeft: "7%"
+  },
+  detailstxt:{
+    fontFamily: "GilMed",
+    color: "white",
+    fontSize: 16,
+    marginLeft: "7%"
   }
 });
