@@ -175,7 +175,7 @@ const MoreDetails = ({ route }) => {
           </View>
         </View>
       </Animated.View>
-      <Animated.View style={[styles.largecontainer1, { height: WindowHeight * 0.170 }]}>
+      <Animated.View style={[styles.largecontainer1, { height: WindowHeight * 0.15 }]}>
         <View style={styles.smallcontainer10}>
           <Image source={require("../Images/moonphase.png")} style={styles.solarrad} />
           <Text style={styles.forecasttxt}> Moon Phase</Text>
