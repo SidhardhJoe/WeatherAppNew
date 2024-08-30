@@ -12,7 +12,7 @@ const MoreDetails = ({ route }) => {
   const { location } = route.params;
   const value = useState(new Animated.ValueXY({ x: 0, y: -300 }))[0];
   const value1 = useState(new Animated.ValueXY({ x: 350, y: 0 }))[0];
-  const value2 = useState(new Animated.ValueXY({ x: 100, y: 100 }))[0];
+  const value2 = useState(new Animated.ValueXY({ x: -10, y: 50 }))[0];
 
   const getAsyncStorageValue = async () => {
     try {
@@ -82,9 +82,9 @@ const MoreDetails = ({ route }) => {
     }).start();
   }
 
-  const moveMoon=() =>{
+  const moveMoon = () => {
     Animated.timing(value2, {
-      toValue: { x: 50, y: 0 },
+      toValue: { x: 40, y: 0 },
       duration: 1500,
       useNativeDriver: false,
     }).start();
@@ -119,7 +119,7 @@ const MoreDetails = ({ route }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style = { styles.container } >
       <StatusBar></StatusBar>
       <Animated.View style={value.getLayout()}>
         <View style={[styles.headerview, { height: WindowHeight * 0.25 }]}>
@@ -138,7 +138,7 @@ const MoreDetails = ({ route }) => {
           </View>
         </View>
       </Animated.View>
-      <Animated.View style={value1.getLayout()} >
+      <View >
         <View style={[styles.tendayforecast, { height: WindowHeight * 0.29 }]}>
           <View style={styles.headingview}>
             <Image source={require("../Images/calender.png")} style={styles.calender} />
@@ -152,7 +152,7 @@ const MoreDetails = ({ route }) => {
             style={{ marginBottom: "1%" }}
           />
         </View>
-      </Animated.View>
+      </View>
       <Animated.View style={styles.weatherfacts}>
         <View style={[styles.smallcontainer1, { height: WindowHeight * 0.135 }]}>
           <View style={styles.smallcontainer10}>
@@ -175,13 +175,13 @@ const MoreDetails = ({ route }) => {
           </View>
         </View>
       </Animated.View>
-      <Animated.View>
-        <View style={[styles.largecontainer1, { height: WindowHeight * 0.170 }]}>
-          <View style={styles.smallcontainer10}>
-            <Image source={require("../Images/moonphase.png")} style={styles.solarrad} />
-            <Text style={styles.forecasttxt}> Moon Phase</Text>
-          </View>
-          <Animated.View style={value2.getLayout()}>
+      <Animated.View style={[styles.largecontainer1, { height: WindowHeight * 0.170 }]}>
+        <View style={styles.smallcontainer10}>
+          <Image source={require("../Images/moonphase.png")} style={styles.solarrad} />
+          <Text style={styles.forecasttxt}> Moon Phase</Text>
+        </View>
+        <Animated.View style={{ flexDirection: "row" }}>
+          <Animated.View style={[value2.getLayout()]}>
             {
               response ? (
                 response.currentConditions.moonphase === 0 ? (
@@ -206,10 +206,13 @@ const MoreDetails = ({ route }) => {
               )
             }
           </Animated.View>
-        </View>
+          <View style={styles.moonphaseview}>
+            <Text style={styles.moonphasedesc}>Moon phases change with Earth's, Sun's, and Moon's relative positions. </Text>
+          </View>
+        </Animated.View>
       </Animated.View>
-    </View>
-  );
+    </View >
+  )
 }
 
 export default MoreDetails;
@@ -341,7 +344,20 @@ const styles = StyleSheet.create({
   },
   moon: {
     height: 75,
-    width: 75,
-
+    width: 75
+  },
+  moonphasedesc: {
+    color: "white",
+    fontFamily: "GilMed",
+    textAlign: "justify"
+  },
+  moonphaseview: {
+    width: "60%",
+    marginLeft: "10%",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  view5: {
+    flexDirection: "row"
   }
 });
