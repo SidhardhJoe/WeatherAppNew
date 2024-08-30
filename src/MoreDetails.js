@@ -12,6 +12,7 @@ const MoreDetails = ({ route }) => {
   const { location } = route.params;
   const value = useState(new Animated.ValueXY({ x: 0, y: -300 }))[0];
   const value1 = useState(new Animated.ValueXY({ x: 350, y: 0 }))[0];
+  const value2 = useState(new Animated.ValueXY({ x: 100, y: 100 }))[0];
 
   const getAsyncStorageValue = async () => {
     try {
@@ -81,10 +82,19 @@ const MoreDetails = ({ route }) => {
     }).start();
   }
 
+  const moveMoon=() =>{
+    Animated.timing(value2, {
+      toValue: { x: 50, y: 0 },
+      duration: 1500,
+      useNativeDriver: false,
+    }).start();
+  }
+
   useEffect(() => {
     getAsyncStorageValue();
     moveBall();
     moveForecast();
+    moveMoon();
   }, []);
 
   const renderItem = ({ item }) => {
@@ -144,22 +154,58 @@ const MoreDetails = ({ route }) => {
         </View>
       </Animated.View>
       <Animated.View style={styles.weatherfacts}>
-        <View style={[styles.smallcontainer1, { height: WindowHeight * 0.150 }]}>
+        <View style={[styles.smallcontainer1, { height: WindowHeight * 0.135 }]}>
           <View style={styles.smallcontainer10}>
             <Image source={require("../Images/solarrad.png")} style={styles.solarrad} />
             <Text style={styles.forecasttxt}> Solar Radiation</Text>
           </View>
-          <View>
-            <Text style={styles.solarradtxt}>{response? response.currentConditions.solarradiation : "Loading..."}nm</Text>
+          <View >
+            <Text style={styles.solarradtxt}>{response ? response.currentConditions.solarradiation : "Loading..."}nm</Text>
             <Text style={styles.detailstxt}>Take adequate precaution</Text>
           </View>
         </View>
-        <View style={[styles.smallcontainer1, { height: WindowHeight * 0.150 }]}>
+        <View style={[styles.smallcontainer1, { height: WindowHeight * 0.135 }]}>
+          <View style={styles.smallcontainer10}>
+            <Image source={require("../Images/air.png")} style={styles.solarrad} />
+            <Text style={styles.forecasttxt}> pressure</Text>
+          </View>
+          <View>
+            <Text style={styles.solarradtxt}>{response ? response.currentConditions.pressure : "Loading..."}</Text>
+            <Text style={styles.detailstxt}>The pressure is excellent</Text>
+          </View>
         </View>
       </Animated.View>
       <Animated.View>
         <View style={[styles.largecontainer1, { height: WindowHeight * 0.170 }]}>
-          
+          <View style={styles.smallcontainer10}>
+            <Image source={require("../Images/moonphase.png")} style={styles.solarrad} />
+            <Text style={styles.forecasttxt}> Moon Phase</Text>
+          </View>
+          <Animated.View style={value2.getLayout()}>
+            {
+              response ? (
+                response.currentConditions.moonphase === 0 ? (
+                  <Image source={require("../Images/newmoon.png")} style={styles.moon} />
+                ) : response.currentConditions.moonphase > 0.00 && response.currentConditions.moonphase <= 0.24 ? (
+                  <Image source={require("../Images/waxingcrescent.png")} style={styles.moon} />
+                ) : response.currentConditions.moonphase >= 0.24 && response.currentConditions.moonphase <= 0.26 ? (
+                  <Image source={require("../Images/firstquarter.png")} style={styles.moon} />
+                ) : response.currentConditions.moonphase > 0.26 && response.currentConditions.moonphase <= 0.49 ? (
+                  <Image source={require("../Images/waxinggibbous.png")} style={styles.moon} />
+                ) : response.currentConditions.moonphase >= 0.49 && response.currentConditions.moonphase <= 0.51 ? (
+                  <Image source={require("../Images/fullmoon.png")} style={styles.moon} />
+                ) : response.currentConditions.moonphase > 0.51 && response.currentConditions.moonphase <= 0.74 ? (
+                  <Image source={require("../Images/waninggibbous.png")} style={styles.moon} />
+                ) : response.currentConditions.moonphase >= 0.74 && response.currentConditions.moonphase <= 0.99 ? (
+                  <Image source={require("../Images/lastquarter.png")} style={styles.moon} />
+                ) : (
+                  <Image source={require("../Images/waningcrescent.png")} style={styles.moon} />
+                )
+              ) : (
+                <Text>Loading...</Text>
+              )
+            }
+          </Animated.View>
         </View>
       </Animated.View>
     </View>
@@ -277,20 +323,25 @@ const styles = StyleSheet.create({
     width: 20,
 
   },
-  smallcontainer10:{
-    flexDirection:"row",
+  smallcontainer10: {
+    flexDirection: "row",
     margin: 5
   },
-  solarradtxt:{
+  solarradtxt: {
     color: "white",
     fontFamily: "GilSemiBold",
     fontSize: 17,
     marginLeft: "7%"
   },
-  detailstxt:{
+  detailstxt: {
     fontFamily: "GilMed",
     color: "white",
-    fontSize: 16,
+    fontSize: 14,
     marginLeft: "7%"
+  },
+  moon: {
+    height: 75,
+    width: 75,
+
   }
 });
