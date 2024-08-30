@@ -24,8 +24,11 @@
         "backgroundColor": "#ffffff"
       },
       "permissions": [
-        "ACCESS_FINE_LOCATION"
-      ]
+        "ACCESS_FINE_LOCATION",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION"
+      ],
+      "package": "weatherapp.joe"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -38,6 +41,11 @@
           "locationAlwaysAndWhenInUsePermission": "Allow WeatherApp to use your location."
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "cfab15a9-44e4-4a6b-af1f-8c7b985f7282"
+      }
+    }
   }
 }
