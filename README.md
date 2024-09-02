@@ -4,7 +4,7 @@ WeatherApp is a application that is simple weather app that is mainly focused on
 The app automatically takes in your location and shows you the current weather condition as well as forecase for the next upcoming days.
 
 ## Images
-<img src="https://github.com/SidhardhJoe/WeatherAppNew/blob/main/assets/bg.png" width="90%" height="450" /> 
+<img src="https://github.com/SidhardhJoe/WeatherAppNew/blob/main/assets/bg.png" width="90%" height="420" /> 
 
 ## Dependencies 
 @react-native-async-storage/async-storage": "^1.24.0"
