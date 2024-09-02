@@ -8,7 +8,7 @@ const FirstPage = () => {
     const navigation = useNavigation();
     const value = useState(new Animated.ValueXY({ x: -300, y: -300 }))[0];
     const value1 = useState(new Animated.ValueXY({ x: -300, y: 0 }))[0];
-    const value2 = useState(new Animated.ValueXY({ x: 0, y: 100 }))[0];
+    const value2 = useState(new Animated.ValueXY({ x: 0, y: 150 }))[0];
     const [location, setLocation] = useState();
 
     function moveBall() {
@@ -27,7 +27,7 @@ const FirstPage = () => {
     }
     function moveBox() {
         Animated.timing(value2, {
-            toValue: { x: 0, y: 0 },
+            toValue: { x: 0, y: 40 },
             duration: 1500,
             useNativeDriver: false,
         }).start()
