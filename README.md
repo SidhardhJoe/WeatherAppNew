@@ -6,7 +6,7 @@ The app automatically takes in your location and shows you the current weather c
 
 
 ## Images
-<img src="https://github.com/SidhardhJoe/WeatherAppNew/blob/main/assets/bg.png" width="90%" height="470" /> 
+<img src="https://github.com/SidhardhJoe/WeatherAppNew/blob/main/assets/bg.png" width="90%" height="500" /> 
 
 
 
